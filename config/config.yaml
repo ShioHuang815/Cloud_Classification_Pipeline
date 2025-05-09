@@ -1,0 +1,29 @@
+# config/config.yaml
+data:
+  input_path: "data/clouds.csv"
+  output_path: "artifacts/cleaned_data.csv"
+  
+model:
+  features:
+    - "visible_mean"
+    - "visible_max"
+    - "visible_min"
+    - "visible_mean_distribution"
+    - "visible_contrast"
+    - "visible_entropy"
+    - "visible_second_angular_momentum"
+    - "IR_mean"
+    - "IR_max"
+    - "IR_min"
+  target: "class"
+  test_size: 0.2
+  random_state: 42
+  model_path: "artifacts/model.pkl"
+  
+metrics:
+  output_path: "artifacts/metrics.png"
+
+aws:
+  bucket_name: "cloud-classification-artifacts"  
+  s3_folder: "cloud-classifier"    
+  region_name: "us-east-1"        

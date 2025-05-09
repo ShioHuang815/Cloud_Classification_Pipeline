@@ -1,0 +1,10 @@
+.ipynb_checkpoints/
+.idea/
+.DS_Store
+__pycache__/
+data/*
+models/*
+!.gitkeep
+*.pyc
+*.csv
+.pytest_cache/
