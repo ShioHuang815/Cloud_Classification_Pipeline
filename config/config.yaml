@@ -1,6 +1,7 @@
 # config/config.yaml
 acquisition:
   source: "https://archive.ics.uci.edu/ml/machine-learning-databases/undocumented/taylor/cloud.data"
+  raw_data_path: "artifacts/clouds.data"
   output_path: "data/clouds.csv"
 
 data:
