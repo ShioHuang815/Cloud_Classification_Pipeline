@@ -84,12 +84,16 @@ To enable S3 uploads for artifact storage:
 
 ```
 .
+├── artifacts             # Major Outputs
+│   ├──cleaned_data_test.csv # Test Set
+│   ├──cleaned_data_train.csv # Training Set
+│   ├──clouds.data        # Raw Data
+│   ├──model.pkl          # Model
+│   └── metrics           # Key metrics folder
 ├── pipeline.py           # Main pipeline execution script
 ├── README.md             # This documentation
 ├── requirements.txt      # Python dependencies
 ├── .pylintrc             # Linting configuration
-├── data
-│   └── clouds.csv        # Input dataset
 ├── modules
 │   ├── data_cleaning.py  # Data preprocessing module
 │   ├── model_training.py # ML training module
