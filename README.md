@@ -37,13 +37,6 @@ This project implements an end-to-end pipeline for cloud classification using ma
 python pipeline.py
 ```
 
-### Docker Execution
-```bash
-docker run -v $(pwd)/data:/app/data \
-           -v $(pwd)/artifacts:/app/artifacts \
-           cloud-classifier
-```
-
 ## 🧪 Testing
 
 ### Running Tests Locally
