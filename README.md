@@ -53,7 +53,7 @@ python tests/unit_tests.py
 
 ### Running Tests in Docker
 ```bash
-docker run -v $(pwd):/app -w /app cloud-classifier python tests/unit_tests.py
+docker run cloud-classifier python tests/unit_tests.py
 ```
 
 ## 📏 Linting (PEP8 Compliance)
@@ -63,7 +63,7 @@ docker run -v $(pwd):/app -w /app cloud-classifier python tests/unit_tests.py
 pip install pylint
 
 # Run linting
-pylint --rcfile=.pylintrc modules pipeline.py tests
+docker run cloud-classifier pylint pipeline.py tests modules
 ```
 
 ## ☁️ AWS Configuration (Optional)
