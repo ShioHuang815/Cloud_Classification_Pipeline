@@ -11,6 +11,8 @@ A reproducible pipeline for classifying cloud types based on image features, wit
 
 This project implements an end-to-end pipeline for cloud classification using machine learning. The system processes cloud imagery, extracts relevant features, trains classification models, and stores resulting artifacts for deployment or further analysis.
 
+Data Source: https://archive.ics.uci.edu/ml/machine-learning-databases/undocumented/taylor/cloud.data
+
 ## 🔧 Prerequisites
 
 - Docker
@@ -21,7 +23,7 @@ This project implements an end-to-end pipeline for cloud classification using ma
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/cloud-classification.git
+   git clone
    cd cloud-classification
    ```
 

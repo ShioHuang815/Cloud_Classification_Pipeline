@@ -1,4 +1,8 @@
 # config/config.yaml
+acquisition:
+  source: "https://archive.ics.uci.edu/ml/machine-learning-databases/undocumented/taylor/cloud.data"
+  output_path: "data/clouds.csv"
+
 data:
   input_path: "data/clouds.csv"
   output_path: "artifacts/cleaned_data.csv"
@@ -21,7 +25,7 @@ model:
   model_path: "artifacts/model.pkl"
   
 metrics:
-  output_path: "artifacts/metrics.png"
+  output_path: "artifacts/metrics"
 
 aws:
   bucket_name: "cloud-classification-artifacts"  

@@ -6,5 +6,4 @@ data/*
 models/*
 !.gitkeep
 *.pyc
-*.csv
 .pytest_cache/
