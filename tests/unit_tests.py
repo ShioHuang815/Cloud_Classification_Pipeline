@@ -10,9 +10,11 @@ from requests.exceptions import RequestException
 # Add the parent directory to the path so we can import modules
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+import numpy as np
 from modules.acquire_data import acquire_data
 from modules.aws_util import upload_directory_to_s3
 from modules.data_cleaning import clean_data, load_config
+from modules.feature_engineering import generate_features  # Import the new module
 from modules.model_training import train_model
 from pipeline import run_pipeline
 
@@ -112,15 +114,12 @@ class ExpandedPipelineTests(unittest.TestCase):
 
         # Setup mock
         mock_read_csv.return_value = self.test_data
-
         try:
-            x_train, x_test, y_train, y_test = clean_data(self.config)
+            train_data, test_data = clean_data(self.config)
 
             # Verify shapes match expected test_size (20% of 4 samples = 1)
-            self.assertEqual(len(x_train), 3)
-            self.assertEqual(len(x_test), 1)
-            self.assertEqual(len(y_train), 3)
-            self.assertEqual(len(y_test), 1)
+            self.assertEqual(len(train_data), 3)
+            self.assertEqual(len(test_data), 1)
 
             self.print_success("Data cleaned and split correctly with expected shapes")
         except Exception as e:
@@ -182,7 +181,7 @@ class ExpandedPipelineTests(unittest.TestCase):
             result = upload_directory_to_s3(
                 local_directory="artifacts",
                 bucket_name=self.config["aws"]["bucket_name"],
-                s3_folder=self.config["aws"]["s3_folder"],
+                s3_folder=self.config["aws"].get("s3_folder"),
                 config={
                     "aws_access_key_id": "test-key",
                     "aws_secret_access_key": "test-secret",
@@ -268,6 +267,66 @@ class ExpandedPipelineTests(unittest.TestCase):
             self.print_success("Properly rejected invalid credentials as expected")
         except Exception as e:
             self.print_failure(f"Did not handle credential error correctly: {str(e)}")
+            raise
+
+    def test_generate_features_happy_path(self):
+        """Happy Test: Feature generation handles valid input correctly."""
+        print("\n" + "=" * 60)
+        print("TEST 7: Feature generation with valid input (Happy Path)")
+        print("=" * 60)
+        try:
+            # Generate features on the test dataframe
+            df = generate_features(self.test_data.copy())
+
+            # List of expected features to be generated
+            expected_features = [
+                "log_entropy",
+                "entropy_x_contrast",
+                "IR_range",
+                "IR_norm_range",
+            ]
+
+            # Check if all expected features are in the DataFrame columns
+            for feature in expected_features:
+                self.assertIn(
+                    feature, df.columns, f"{feature} is missing from the DataFrame"
+                )
+
+            # Additional check: Ensure there are no NaNs in these columns
+            for feature in expected_features:
+                self.assertFalse(
+                    df[feature].isnull().any(), f"{feature} contains NaN values"
+                )
+
+            self.print_success(
+                "All expected features are present and contain valid data."
+            )
+        except Exception as e:
+            self.print_failure(f"Error generating features: {str(e)}")
+            raise
+
+    def test_generate_features_unhappy_path(self):
+        """Unhappy Test: Feature generation handles missing columns."""
+        print("\n" + "=" * 60)
+        print("TEST 8: Feature generation with missing columns (Unhappy Path)")
+        print("=" * 60)
+        # Create a DataFrame with only some of the required columns
+        incomplete_data = self.test_data.copy().drop(
+            columns=["visible_entropy", "visible_contrast", "IR_max", "IR_min"]
+        )
+        try:
+            generate_features(incomplete_data)
+            self.print_failure(
+                "Feature generation did not raise an error with incomplete data"
+            )
+        except KeyError:
+            self.print_success(
+                "Feature generation correctly raises KeyError for missing columns"
+            )
+        except Exception as e:
+            self.print_failure(
+                f"Feature generation raised an unexpected error: {str(e)}"
+            )
             raise
 
 

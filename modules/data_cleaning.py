@@ -20,6 +20,7 @@ def load_config(config_path="config/config.yaml"):
     return config
 
 
+# Paste pre-Pyrfected Python
 def clean_data(config):
     """Clean and prepare data for modeling.
 
@@ -47,10 +48,11 @@ def clean_data(config):
     test_data = pd.concat([x_test, y_test], axis=1)
 
     train_data.to_csv(
-        config["data"]["output_path"].replace(".csv", "_train.csv"), index=False
-    )
+        config["data"]["output_path"] + "_train.csv", index=False
+    )  # Added _train
     test_data.to_csv(
-        config["data"]["output_path"].replace(".csv", "_test.csv"), index=False
-    )
+        config["data"]["output_path"] + "_test.csv", index=False
+    )  # Added _test
 
-    return x_train, x_test, y_train, y_test
+    return train_data, test_data
+
