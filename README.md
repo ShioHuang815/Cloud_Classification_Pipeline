@@ -97,6 +97,7 @@ To enable S3 uploads for artifact storage:
 ├── modules
 │   ├── data_cleaning.py  # Data preprocessing module
 │   ├── model_training.py # ML training module
+│   ├── feature_engineering.py # Feature Engineer
 │   └── aws_util.py       # AWS integration utilities
 ├── config
 │   └── config.yaml       # Configuration settings
@@ -112,7 +113,7 @@ To enable S3 uploads for artifact storage:
 
 1. **Data Loading**: Imports cloud imagery data from CSV files
 2. **Data Cleaning**: Preprocesses images, handles missing values
-3. **Feature Extraction**: Identifies key cloud characteristics 
+3. **Feature Engineering**: Identifies key cloud characteristics and Feature Engineer
 4. **Model Training**: Trains classification models using processed data
 5. **Model Evaluation**: Evaluates performance metrics
 6. **Artifact Storage**: Saves models and metadata locally or to S3
